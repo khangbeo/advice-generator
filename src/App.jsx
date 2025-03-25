@@ -6,11 +6,19 @@ import Icon from "./components/Icon";
 const baseUrl = "https://api.adviceslip.com/advice";
 function App() {
     const [advice, setAdvice] = useState({});
-
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const fetchAdvice = async () => {
-        const res = await fetch(baseUrl);
-        const data = await res.json();
-        setAdvice(data.slip);
+        try {
+            setLoading(true);
+            const res = await fetch(baseUrl);
+            const data = await res.json();
+            setAdvice(data.slip);
+            setLoading(false);
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }
     };
 
     const handleClick = () => {
@@ -31,7 +39,9 @@ function App() {
                     Advice #{advice.id}
                 </h2>
                 <p className="text-white text-center text-2xl font-bold mx-6">
-                    {advice.advice}
+                    {loading && "Loading..."}
+                    {!loading && advice && advice.advice}
+                    {error && `Error: ${error.message}`}
                 </p>
 
                 <Icon
