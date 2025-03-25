@@ -17,6 +17,10 @@ function App() {
         fetchAdvice();
     };
 
+    useEffect(() => {
+        fetchAdvice();
+    }, []);
+
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-slate-800">
             <h1 className="text-4xl font-bold text-white tracking-wider">
